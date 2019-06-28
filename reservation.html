@@ -20,7 +20,7 @@
             <h5 class="d-flex justify-content-center">Make your reservation</h5>
             <hr>
             <div class="d-flex justify-content-center ">
-                <a href="/reservation"><button class="btn btn-primary btn-lg" style="margin-right: 20px">View
+                <a href="/tables"><button class="btn btn-primary btn-lg" style="margin-right: 20px">View
                         Tables</button></a>
                 <a href="/"><button class="btn btn-lg" style="margin-right: 20px">Home</button></a>
 
@@ -67,8 +67,8 @@
         </div>
 
         <div class="links" style="margin: 10px">
-            <a href="" style="border-right: 1px solid grey; padding-right: 5px">API Table Link</a>
-            <a href="">API Wait List</a>
+            <a href="/api/reservations" style="border-right: 1px solid grey; padding-right: 5px">API Table Link</a>
+            <a href="/api/waitlist">API Wait List</a>
         </div>
     </div>
 
@@ -79,39 +79,29 @@
         $("#reserve-btn").on("click", function () {
 
             var newReservation = {
-                inputName: $("#name").val().trim(),
-                inputPhone: $("#phone").val().trim(),
-                inputEmail: $("#email").val().trim(),
-                inputId: $("#id").val().trim()
+                name: $("#name").val().trim(),
+                phone: $("#phone").val().trim(),
+                email: $("#email").val().trim(),
+                id: $("#id").val().trim()
             }
 
-            $.post("/api/reservations", newReservation)
-                .then(function (data) {
-                    console.log(data);
-                    alert("Adding reservation...");
-                });
+            $.get("/api/reservations", function (data) {
+                if (data.length < 5) {
+                    $.post("/api/reservations", newReservation)
+                        .then(function (data) {
+                            console.log(data);
+                            alert("Adding reservation...");
+                        });
+                } else {
+                    $.post("/api/waitlist", newReservation)
+                        .then(function (data) {
+                            console.log(data);
+                            alert("Adding to waitlist...");
+                        });
+                }
+            });
+
         });
-
-
-        //     // Using a RegEx Pattern to remove spaces from searchedCharacter
-        //     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-        //     searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
-
-        //     $.get("/api/characters/" + searchedCharacter, function (data) {
-        //         console.log(data);
-        //         if (data) {
-        //             $("#stats").show();
-        //             $("#name").text(data.name);
-        //             $("#role").text(data.role);
-        //             $("#age").text(data.age);
-        //             $("#force-points").text(data.forcePoints);
-        //         }
-        //         else {
-        //             $("#name").text("The force is not strong with this one. Your character was not found.");
-        //             $("#stats").hide();
-        //         }
-        //     });
-        // });
 
     </script>
 

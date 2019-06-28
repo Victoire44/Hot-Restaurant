@@ -21,8 +21,8 @@
             </h5>
             <hr>
             <div class="d-flex justify-content-center ">
-                <a href="/reservation"><button id="btn-table" class="btn btn-primary btn-lg" style="margin-right: 20px"><span
-                            class="fa fa-plus"></span>reservation</button></a>
+                <a href="/reservation"><button id="btn-table" class="btn btn-primary btn-lg"
+                        style="margin-right: 20px"><span class="fa fa-plus"></span>reservation</button></a>
                 <a href="/"><button class="btn btn-danger btn-lg ">Home</button></a>
             </div>
 
@@ -46,14 +46,21 @@
             </div>
         </div>
 
+        <div class="links" style="margin: 10px">
+            <a href="" id="deleteTable" style="border-right: 1px solid grey; padding-right: 5px">Clear Table</a>
+            <a href="/api/reservations" style="border-right: 1px solid grey; padding-right: 5px">API Table Link</a>
+            <a href="/api/waitlist">API Wait List</a>
+        </div>
+
+
         <script type="text/javascript">
-    
-        
+
+
             $.get("/api/reservations", function (data) {
                 var reservationGroup = $("<ol class='rg'>");
                 var waitingGroup = $("<ol class='wg'>");
                 for (var i = 0; i < data.length; i++) {
-                    if(i > 5){
+                    if (i >= 5) {
                         waitingGroup.append($("<li>").text(data[i].name));
                         $("#waiting").append(waitingGroup)
                     } else {
@@ -63,8 +70,17 @@
                 }
             });
 
-        </script>
+            $("#deleteTable").on("click", function () {
+                $.ajax({
+                    url: "/api/reservations",
+                    type: "DELETE"
+                })
+                .then(function(){
+                    location.reload(true);
+                })
+            });
 
+        </script>
 </body>
 
 </html>

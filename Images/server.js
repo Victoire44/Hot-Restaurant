@@ -9,7 +9,8 @@ app.use(express.json());
 
 var reservations = [
     {
-        name: "Gab",
+
+        name: "Gabe",
         phone: "123-456-7685",
         email: "gab@gmail.com",
         id: 49
@@ -41,14 +42,14 @@ app.get("/api/reservations", function (req, res) {
 
 app.post("/api/reservations", function(req, res) {
 
-    var newcharacter = req.body;
-    newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+    var newRes = req.body;
+    // newRes.routeName = newRes.name.replace(/\s+/g, "").toLowerCase();
    
-    console.log(newcharacter);
+    console.log(newRes);
    
-    reservations.push(newcharacter);
+    reservations.push(newRes);
    
-    res.json(newcharacter);
+    res.json(newRes);
    });
 
 
