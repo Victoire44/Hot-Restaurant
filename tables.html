@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Star Wars - Express</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="d-flex justify-content-center">Hot Restaurant</h1>
+            <h5 class="d-flex justify-content-center">We only have 5 tables! Book your seat before they all are gone!
+            </h5>
+            <hr>
+            <div class="d-flex justify-content-center ">
+                <a href="/reservation"><button id="btn-table" class="btn btn-primary btn-lg" style="margin-right: 20px"><span
+                            class="fa fa-plus"></span>reservation</button></a>
+                <a href="/"><button class="btn btn-danger btn-lg ">Home</button></a>
+            </div>
+
+        </div>
+        <div class="col-12">
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3><strong>Current Reservations</strong></h3>
+                </div>
+                <div id="reservation" class="card-body">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong>Waiting List</strong></h3>
+                </div>
+                <div id="waiting" class="card-body">
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+    
+        
+            $.get("/api/reservations", function (data) {
+                var reservationGroup = $("<ol class='rg'>");
+                var waitingGroup = $("<ol class='wg'>");
+                for (var i = 0; i < data.length; i++) {
+                    if(i > 5){
+                        waitingGroup.append($("<li>").text(data[i].name));
+                        $("#waiting").append(waitingGroup)
+                    } else {
+                        reservationGroup.append($("<li>").text(data[i].name));
+                        $("#reservation").append(reservationGroup)
+                    }
+                }
+            });
+
+        </script>
+
+</body>
+
+</html>
